@@ -50,6 +50,14 @@ class RecipientsController {
             zip_code,
         });
     }
+
+    // eslint-disable-next-line class-methods-use-this
+    async index(req, res) {
+        const recipients = await Recipients.findAll({
+            attributes: ['id', 'name', 'street', 'number', 'state', 'city'],
+        });
+        return res.json(recipients);
+    }
 }
 
 export default new RecipientsController();
