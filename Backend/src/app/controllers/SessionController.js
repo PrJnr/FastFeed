@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
+import authConfig from '../../config/auth';
+
 class SessionController {
     // eslint-disable-next-line class-methods-use-this
     async store(req, res) {
@@ -26,8 +28,8 @@ class SessionController {
                 name,
                 email,
             },
-            token: jwt.sign({ id }, '1929e2ff4fe77251cf5e2a47c823c571', {
-                expiresIn: '7d',
+            token: jwt.sign({ id }, authConfig.secret, {
+                expiresIn: authConfig.expiresIn,
             }), // 1929e2ff4fe77251cf5e2a47c823c571
         });
     }
