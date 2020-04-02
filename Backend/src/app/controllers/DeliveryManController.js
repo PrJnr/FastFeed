@@ -82,7 +82,7 @@ class DeliveryManController {
             await fs.unlink(`tmp/uploads/${path}`, (err) => {
                 console.log(err);
             });
-            console.log('File Removed Succefully');
+            console.log('File Removed Succesfully');
         }
 
         const { name, email } = deliveryman;
