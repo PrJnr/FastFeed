@@ -14,6 +14,7 @@ class Deliverys extends Model {
             },
             {
                 sequelize,
+                tableName: 'deliverys',
             }
         );
         return this;
@@ -24,11 +25,11 @@ class Deliverys extends Model {
             foreignKey: 'signature_id',
             as: 'signature',
         });
-        this.belongsTo(models.File, {
+        this.belongsTo(models.Deliverymans, {
             foreignKey: 'deliveryman_id',
             as: 'deliveryman',
         });
-        this.belongsTo(models.File, {
+        this.belongsTo(models.Recipients, {
             foreignKey: 'recipient_id',
             as: 'recipient',
         });
