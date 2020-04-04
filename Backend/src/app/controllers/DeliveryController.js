@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import * as Yup from 'yup';
 import Deliveryman from '../models/Deliverymans';
-import Recipient from '../models/Recipients';
+
 import Delivery from '../models/Deliverys';
 import File from '../models/File';
 
@@ -32,8 +32,8 @@ class DeliveryController {
             return res.status(400).json({ erro: 'Deliveryman not found' });
         }
 
-        const recipientExists = await Recipient.findByPk(recipient_id);
-        const recipient = await Recipient.findOne({
+        const recipientExists = await Recipients.findByPk(recipient_id);
+        const recipient = await Recipients.findOne({
             where: recipient_id,
         });
 
@@ -64,6 +64,7 @@ class DeliveryController {
     async index(req, res) {
         const delivery = await Delivery.findAll({
             attributes: [
+                'id',
                 'product',
                 'canceled_at',
                 'start_date',
@@ -84,7 +85,7 @@ class DeliveryController {
             attributes: { exclude: ['signature_id', 'path'] },
             include: [
                 { model: File, as: 'signature' },
-                { model: Recipient, as: 'recipient' },
+                { model: Recipients, as: 'recipient' },
                 { model: Deliveryman, as: 'deliveryman' },
             ],
         });
@@ -134,6 +135,23 @@ class DeliveryController {
         await delivery.update(req.body);
 
         return res.json(delivery);
+    }
+
+    async delete(req, res) {
+        const { id } = req.params;
+
+        const searchDelivery = await Delivery.findByPk(id);
+
+        if (!searchDelivery) {
+            return res.status(400).json({ erro: 'Delivery not found' });
+        }
+
+        await searchDelivery.destroy();
+
+        return res.json({
+            status: `Delivery nº ${id} Deleted `,
+            searchDelivery,
+        });
     }
 }
 
