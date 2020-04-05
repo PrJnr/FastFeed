@@ -26,6 +26,11 @@ routes.put(
     '/deliverymen/:id/deliveries/:deliveryID',
     StatusDeliveryController.update
 );
+routes.post(
+    '/deliverymen/:id/deliveries/:deliveryID',
+    upload.single('file'),
+    StatusDeliveryController.store
+);
 
 routes.use(authMiddleware);
 

@@ -146,7 +146,8 @@ class DeliveryController {
             return res.status(400).json({ erro: 'Delivery not found' });
         }
 
-        await searchDelivery.destroy();
+        const date = new Date();
+        await searchDelivery.destroy({ canceled_at: date });
 
         return res.json({
             status: `Delivery nº ${id} Deleted `,
