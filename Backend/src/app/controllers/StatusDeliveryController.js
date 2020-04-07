@@ -134,14 +134,20 @@ class StatusDeliveryController {
                     .status(401)
                     .json({ error: 'Outside working hours', startHour });
             }
-            const { end_date, signature_id } = req.body;
+            /* Na Primeira logica eu verificava se os campos eram nulos
+                pq eu enviava o body no update, agora nao, só altero o campo
+                e salvo. STONKS!
+
+            */
+            /* const { end_date, signature_id } = req.body;
             if (end_date || signature_id != null) {
                 return res.status(400).json({
                     error:
                         'end_date and signature_id have is null for Accepting delivery',
                 });
-            }
-            await AcceptedDelivery.update(req.body);
+            } */
+            AcceptedDelivery.start_date = start_date;
+            await AcceptedDelivery.save();
 
             return res.json({
                 message: 'Deliverie Accepted ',
@@ -170,8 +176,10 @@ class StatusDeliveryController {
         if (!searchSignature) {
             return res.status(400).json({ error: 'Invalid Signature' });
         }
+        finishedDelivery.end_date = end_date;
+        finishedDelivery.signature_id = signature_id;
 
-        await finishedDelivery.update(req.body);
+        await finishedDelivery.save();
         return res.json({ message: 'Delivery Finished: ', finishedDelivery });
     }
 }
