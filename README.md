@@ -2,7 +2,7 @@
   <img alt="Fastfeet" title="Fastfeet" src=".github/fastfeed.png" width="300px" />
 </h1>
 <h3 align="center">
-  FAST FEED
+  FAST FEET
 </h3>
 
 <p>Esse desafio faz parte do Desafio Final, que é uma aplicação completa (Back-end, Front-end e Mobile) para uma transportadora.</p>
