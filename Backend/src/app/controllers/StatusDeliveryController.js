@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable class-methods-use-this */
 import { Op } from 'sequelize';
 import * as Yup from 'yup';
@@ -127,10 +128,19 @@ class StatusDeliveryController {
             const startHour = Number(
                 format(startOfHour(parseISO(start_date)), 'H')
             );
-            if (startHour < 8 || startHour >= 18) {
-                return res.status(401).json({ error: 'Outside working hours' });
-            }
 
+            if (startHour < 8 || startHour >= 18) {
+                return res
+                    .status(401)
+                    .json({ error: 'Outside working hours', startHour });
+            }
+            const { end_date, signature_id } = req.body;
+            if (end_date || signature_id != null) {
+                return res.status(400).json({
+                    error:
+                        'end_date and signature_id have is null for Accepting delivery',
+                });
+            }
             await AcceptedDelivery.update(req.body);
 
             return res.json({
